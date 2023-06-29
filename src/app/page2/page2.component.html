@@ -1,0 +1,94 @@
+<body>
+    <div class="container">
+        <p-toolbar>
+            <div class="p-toolbar-group-left fonts1">&nbsp;&nbsp;ร้านหมูทะ อาจารย์เอ็ม อิ่ม แซ่บ คุ้ม</div>
+            <div class="p-toolbar-group-right fonts2">
+                {{this.Date | thaidate: 'medium'}}
+                {{this.Date | date: 'HH:mm น.'}}&nbsp;&nbsp;
+                <button pButton pRipple type="button" icon="pi pi-home" class="p-button-rounded p-button-outlined"
+                    routerLink="/"></button>
+            </div>
+        </p-toolbar>
+    </div>
+</body>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <p-splitter [style]="{'height': '650px'}" styleClass="mb-5">
+                <ng-template pTemplate>
+                    <div class="col flex align-items-center justify-content-center"><br>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h5 class="fonts1">ใบเสร็จ</h5>
+                                </div>
+                            </div><br>
+                            <div class="card ">
+                                <p-table [value]="bills" [paginator]="true" [rows]="8" [showCurrentPageReport]="true"
+                                    responsiveLayout="scroll" currentPageReportTemplate="
+                                    {first} of {last} " selectionMode="multiple" >
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th class="text-center" width="200px">ใบเสร็จที่</th>
+                                            <th class="text-center" width="400px">วันที่-เวลา</th>
+                                            <th class="text-center" width="200px">ราคารวม</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-bill>
+                                        <tr (click)="click_bill(bill.list)">
+                                            <td class="text-center">{{bill.list}}</td>
+                                            <td class="text-center">{{bill.date|thaidate:'short'}}
+                                                {{bill.date|date: 'HH:mm น.'}}
+                                            </td>
+                                            <td class="text-center">{{bill.price}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate>
+                    <div class="col flex align-items-center justify-content-center"><br>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h5 class="fonts1">รายการใบเสร็จ</h5>
+                                </div>
+                            </div><br>
+                            <div class="card ">
+                                <p-table [value]="orders">
+                                    <ng-template pTemplate="header">
+                                        <tr class>
+                                            <th class="text-center" width="600px">รายการอาหาร</th>
+                                            <th class="text-center" width="200px">ราคา</th>
+                                            <th class="text-center" width="200px">จำนวน</th>
+                                            <th class="text-center" width="200px">รวม</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-order>
+                                        <tr>
+                                            <td class="text-center">{{order.menu}}</td>
+                                            <td class="text-center">{{order.price}}</td>
+                                            <td class="text-center">{{order.amount}}</td>
+                                            <td class="text-center">{{order.amount*order.price}}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table><br>
+                                <div class="row">
+                                    <div class="col-sm-10 text-end">
+                                        <p>ราคารวมทั้งสิ้น</p>
+                                    </div>
+                                    <div class="col-sm-2 text-center">
+                                        <p>{{this.sumall}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-splitter>
+        </div>
+    </div>
+</body>

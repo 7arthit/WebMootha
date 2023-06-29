@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Mali:wght@200&family=Spline+Sans:wght@300&display=swap');
+
+* {
+    font-family: 'Mali', cursive;
+    font-size: 15px;
+}
+
+.fonts1 {
+    font-family: 'Mali', cursive;
+    font-size: 18px;
+    font-weight:1000;
+}
+
+.fonts2 {
+    font-family: 'Mali', cursive;
+    font-size: 15px;
+    font-weight:1000;
+}
+
+div {
+    text-align: center;
+}

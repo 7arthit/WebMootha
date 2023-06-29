@@ -1,0 +1,199 @@
+<body>
+    <div class="container">
+        <p-toolbar>
+            <div class="p-toolbar-group-left fonts1">&nbsp;&nbsp;ร้านหมูทะ อาจารย์เอ็ม อิ่ม แซ่บ คุ้ม</div>
+            <div class="p-toolbar-group-right fonts2">
+                {{this.Date | thaidate: 'medium'}}
+                {{this.Date | date: 'HH:mm น.'}}&nbsp;&nbsp;
+                <button pButton pRipple type="button" icon="pi pi-th-large" class="p-button-rounded p-button-outlined"
+                    routerLink="/report"></button>
+            </div>
+        </p-toolbar>
+    </div>
+</body>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <p-splitter [style]="{'height': '650px'}" styleClass="mb-5">
+                <ng-template pTemplate>
+                    <div class="col flex align-items-center justify-content-center"><br>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h5 class="fonts1">สั่งอาหาร</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6"><br>
+                                    <a (click)="menu_order_img1('เครื่องดื่มไม่อั้น',30,0)"><img
+                                            src="../../assets/imgs/refill.jpg" width="250" /></a>
+                                    <p>เครื่องดื่มไม่อั้น (30 บาท)</p>
+                                </div>
+                                <div class="col-sm-6"><br>
+                                    <a (click)="menu_order_img3('ไอศครีมไม่อั้น',50,1)"><img
+                                            src="../../assets/imgs/itim.jpeg" width="250" /></a>
+                                    <p>ไอศครีมไม่อั้น (50 บาท)</p>
+                                </div>
+                            </div>
+                            <div class="row"><br>
+                                <div class="col-sm-6"><br>
+                                    <a (click)="menu_order_img2('ชุดเล็กอิ่มคุ้ม',59,2)"><img
+                                            src="../../assets/imgs/small.jpg" width="250" /></a>
+                                    <p>ชุดเล็กอิ่มคุ้ม (59 บาท)</p>
+                                </div>
+                                <div class="col-sm-6"><br>
+                                    <a (click)="menu_order_img4('ชุดใหญ่อิ่มแน่น',129,3)"><img
+                                            src="../../assets/imgs/big.jpg" width="250" /></a>
+                                    <p>ชุดใหญ่อิ่มแน่น (129 บาท)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate>
+                    <div class="container"><br>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h5 class="fonts1">จัดการรายการอาหาร</h5>
+                            </div>
+                        </div><br>
+                        <div class="card ">
+                            <p-table [value]="showfood" selectionMode="multiple">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th class="text-center " width="600px">รายการอาหาร</th>
+                                        <th class="text-center" width="200px">ราคา</th>
+                                        <th class="text-center" width="200px">จำนวน</th>
+                                        <th class="text-center" width="200px">รวม</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-showfood>
+                                    <tr
+                                        (click)="showupdialog(showfood.id,showfood.menu,showfood.price,showfood.amount)">
+                                        <td class="text-center">{{showfood.menu}}</td>
+                                        <td class="text-center">{{showfood.price}}</td>
+                                        <td class="text-center">{{showfood.amount}}</td>
+                                        <td class="text-center">{{showfood.price*showfood.amount}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table><br>
+                            <div class="row">
+                                <div class="col-sm-10 text-end">
+                                    <p class="text-right">ราคารวมทั้งสิ้น</p>
+                                </div>
+                                <div class="col-sm-2 text-center">
+                                    <p>{{this.sumall}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div *ngIf="disbuthon" class="col-sm-12 " style="padding-top: 10px;">
+                                <p-button (click)="payment()" label="ชำระเงิน" icon="pi pi-money-bill"></p-button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-splitter>
+        </div>
+    </div>
+</body>
+
+<p-dialog header="เลือกจำนวน" [(visible)]="display_img" [modal]="true" [style]="{width: '20vw'}" [resizable]="false">
+    <div class="row">
+        <div class="col-12">
+            <h5 class="m-2 fonts2">{{this.name_food+' '+this.price_food +' บาท'}}</h5><br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <button (click)="m()" pButton pRipple icon="pi pi-minus" class="p-button-rounded"></button>
+        </div>
+        <div class="col-4 my-auto">
+            <h1>{{this.amount[this.index]}}</h1><br>
+        </div>
+        <div class="col-4 ">
+            <button (click)="p()" pButton pRipple icon="pi pi-plus" class="p-button-rounded"></button><br><br>
+        </div>
+    </div>
+    <ng-template pTemplate="footer-center">
+        <p-button icon="pi pi-check" (click)="addlist()" label="เพิ่มรายการ">
+        </p-button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog #cd [style]="{width: '20vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
+    <ng-template pTemplate="footer">
+        <div class="row">
+            <div class="col-12">
+                <p-button (onClick)="cd.reject()" icon="pi pi-times" label="ยกเลิก"></p-button>
+                <p-button (onClick)="cd.accept()" icon="pi pi-check" label="ตกลง"></p-button>
+            </div>
+        </div>
+    </ng-template>
+</p-confirmDialog>
+
+<p-dialog header="เลือกจำนวน" [(visible)]="showup_dialog" [modal]="true" [style]="{width: '17vw'}" [resizable]="false">
+    <h5 class="m-2 fonts2">{{this.name_food+' '+this.price_food +' บาท'}}</h5><br>
+    <div class="row">
+        <div class="col-4">
+            <button (click)="m()" pButton pRipple icon="pi pi-minus" class="p-button-rounded"></button>
+        </div>
+        <div class="col-4">
+            <h1>{{this.amount[this.index]}}</h1><br>
+        </div>
+        <div class="col-4">
+            <button (click)="p()" pButton pRipple icon="pi pi-plus" class="p-button-rounded"></button><br><br>
+        </div>
+    </div>
+    <ng-template pTemplate="footer-center">
+        <div class="row">
+            <div class="col-12">
+                <button pButton pRipple (click)="addamount()" icon="pi pi-check"
+                    label="ปรับปรุง&nbsp;&nbsp;&nbsp;"></button>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-12">
+                <button pButton pRipple (click)="delete()" icon="pi pi-times" class="p-button-danger"
+                    label="ลบรายการ"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="{{' ใบเสร็จเลขที่ ' + new_id }}" (onHide)="close_windows()" [(visible)]="display_ok" [modal]="true"
+    [style]="{width: '40vw'}" [draggable]="false" [resizable]="false">
+    <div class="card ">
+        <p-table [value]="showfood">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="text-center" width="600px">รายการอาหาร</th>
+                    <th class="text-center" width="200px">ราคา</th>
+                    <th class="text-center" width="200px">จำนวน</th>
+                    <th class="text-center" width="200px">รวม</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-showfood>
+                <tr>
+                    <td class="text-center">{{showfood.menu}}</td>
+                    <td class="text-center">{{showfood.price}}</td>
+                    <td class="text-center">{{showfood.amount}}</td>
+                    <td class="text-center">{{showfood.price*showfood.amount}}</td>
+                </tr>
+            </ng-template>
+        </p-table><br>
+        <div class="row">
+            <div class="col-sm-10 text-end">
+                <p class="text-right">ราคารวมทั้งสิ้น</p>
+            </div>
+            <div class="col-sm-2 text-center">
+                <p>{{this.sumall}}</p>
+            </div>
+        </div>
+    </div><br>
+    <ng-template pTemplate="footer-center">
+        <p-button icon="pi pi-times" (onClick)="close_windows()" label="ปิดหน้าต่าง">
+        </p-button>
+    </ng-template>
+</p-dialog>
